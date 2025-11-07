@@ -42,47 +42,6 @@ SmartPark is ideal for smart city infrastructure, malls, universities, and corpo
 
 ---
 
-## 🧩 Architecture Flow Diagram
-
-```
-          ┌──────────────────────┐
-          │     Client (Web UI)  │
-          └──────────┬───────────┘
-                     │
-                     ▼
-          ┌──────────────────────┐
-          │   CloudFront (CDN)   │
-          └──────────┬───────────┘
-                     │
-                     ▼
-          ┌────────────────────────────┐
-          │   S3 (Static Frontend Hosting) │
-          └──────────┬─────────────────┘
-                     │
-                     ▼
-          ┌──────────────────────────┐
-          │  API Gateway (REST Endpoints) │
-          └──────────┬────────────────┘
-                     │
-                     ▼
-          ┌──────────────────────────┐
-          │   AWS Lambda (Compute Logic) │
-          └──────────┬────────────────┘
-                     │
-                     ▼
-          ┌──────────────────────────┐
-          │  DynamoDB (Slots + Sessions) │
-          └──────────┬────────────────┘
-                     │
-          ┌──────────┴──────────┐
-          ▼                     ▼
- ┌────────────────────┐  ┌────────────────────┐
- │ DynamoDB Streams   │  │ SQS Dead Letter Queue │
- │ (Event Triggers)   │  │ (Failure Recovery)    │
- └────────────────────┘  └────────────────────┘
-
-
-```
 
 ---
 
@@ -117,7 +76,7 @@ Enable Caching, HTTPS, and configure custom domain (optional).
 
 Copy the CloudFront URL (this will serve your app globally).
 
-🔹 2. Backend Setup (API Gateway + Lambda)
+### 🔹 2. Backend Setup (API Gateway + Lambda)
 a. Create Lambda Functions
 You will need four core Lambda functions:
 
@@ -165,7 +124,7 @@ SQS (SendMessage)
 
 Lambda Basic Execution Role
 
-🔹 3. Create DynamoDB Tables
+### 🔹 3. Create DynamoDB Tables
 a. Slots Table
 Attribute	Type	Description
 slotId	String	Unique slot identifier
@@ -188,7 +147,7 @@ Enable a new stream (for Lambda event triggers).
 
 Configure it to invoke a Lambda function when items update.
 
-🔹 4. Configure API Gateway
+### 🔹 4. Configure API Gateway
 Create a new REST API in API Gateway.
 
 Add resources and methods:
@@ -205,7 +164,7 @@ Deploy the API to stage prod.
 
 Copy your API invoke URL — it connects your frontend to AWS.
 
-🔹 5. Setup SQS Dead Letter Queue (DLQ)
+### 🔹 5. Setup SQS Dead Letter Queue (DLQ)
 Open Amazon SQS → Create a queue named smartpark-lambda-dlq.
 
 In each Lambda function, add the queue as a dead-letter destination.
@@ -218,14 +177,14 @@ sqs:GetQueueAttributes
 ```
 This ensures any failed events are captured for later review.
 
-🔹 6. CloudWatch & Monitoring
+### 🔹 6. CloudWatch & Monitoring
 Use Amazon CloudWatch Logs to monitor function execution.
 
 Create Billing Alarms to notify when free-tier limits are near.
 
 Optional: Set up SNS Notifications for email alerts on function failures or threshold events.
 
-🔹 7. Integration Summary
+### 🔹 7. Integration Summary
 Component	Service	Purpose
 Frontend	S3 + CloudFront	Host and distribute the app globally
 Backend	API Gateway + Lambda	Process API requests and logic
