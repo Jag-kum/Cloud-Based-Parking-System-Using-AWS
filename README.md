@@ -1,5 +1,5 @@
-# Cloud-Based-Parking-System-Using-AWS
-# 🅿️ SmartPark — Serverless Smart Parking Management System on AWS
+# ☁️ Cloud-Based Parking System Using AWS
+## 🅿️ SmartPark — Serverless Smart Parking Management System on AWS
 
 SmartPark is a **real-time, fully serverless parking management system** designed to automate vehicle parking operations in environments such as malls, universities, and tech parks.  
 It provides **intelligent slot allocation**, **automated billing**, and **revenue analytics** through a cloud-native architecture powered by **AWS services**.
@@ -53,7 +53,7 @@ The system integrates a **web-based frontend**, a **REST API backend**, and **No
 
 ## 🧩 System Architecture
 
-```plaintext
+```text
    ┌──────────────────────────┐
    │        Frontend          │
    │ (S3 Static Hosting +     │
@@ -63,14 +63,14 @@ The system integrates a **web-based frontend**, a **REST API backend**, and **No
               ▼
    ┌──────────────────────────┐
    │      API Gateway         │
-   │ (REST Endpoints)         │
+   │     (REST Endpoints)     │
    └──────────┬───────────────┘
               │
               ▼
    ┌──────────────────────────┐
    │        AWS Lambda        │
    │ (Entry / Exit / Slots /  │
-   │  Revenue Functions)      │
+   │   Revenue Functions)     │
    └──────────┬───────────────┘
               │
               ▼
@@ -81,41 +81,5 @@ The system integrates a **web-based frontend**, a **REST API backend**, and **No
               │
      ┌────────┴────────┐
      ▼                 ▼
-SQS Dead Letter Queue   DynamoDB Streams
+SQS Dead Letter Queue   DynamoDB Streams  
 (Handles failures)      (Triggers async updates)
-
-## 🚀 Deployment Steps
-1. **Frontend**
-   - Build the Next.js app: `npm install && npm run build`
-   - Upload the `out/` folder to an S3 bucket with static hosting enabled.
-   - Set up a CloudFront distribution linked to the bucket.
-
-2. **Backend**
-   - Create DynamoDB tables: `Slots` and `Sessions`.
-   - Deploy Lambda functions for `/entry`, `/exit`, `/slots`, `/revenue`.
-   - Connect them via API Gateway (enable CORS).
-
-3. **Additional AWS Setup**
-   - Create SQS DLQ for Lambda failures.
-   - Enable DynamoDB Streams for real-time updates.
-   - Monitor logs and metrics in CloudWatch.
-
-4. **Test**
-   - Open your CloudFront URL → interact with the live parking dashboard.
-
-
-## 🧰 AWS Services Summary
-
-| Service | Purpose |
-|----------|----------|
-| **S3** | Hosts the static website frontend. |
-| **CloudFront** | Delivers the frontend globally with caching. |
-| **API Gateway** | Manages RESTful API endpoints. |
-| **AWS Lambda** | Executes backend logic serverlessly. |
-| **DynamoDB** | Stores slot and session data. |
-| **DynamoDB Streams** | Triggers Lambdas for real-time updates. |
-| **SQS (DLQ)** | Captures failed events for reliability. |
-| **SNS** | Sends alerts for billing and monitoring. |
-| **CloudWatch** | Tracks logs, metrics, and usage. |
-| **IAM** | Manages secure service permissions. |
-
